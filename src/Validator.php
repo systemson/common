@@ -13,7 +13,7 @@ trait Validator
      *
      * @return bool True if the specified argument is valid.
      */
-    public function isString($arg)
+    protected function isString($arg)
     {
         if (!is_string($arg) || $arg === '') {
             throw new \InvalidArgumentException('Argument should be a non empty string.');
@@ -31,7 +31,7 @@ trait Validator
      *
      * @return bool True if the specified argument is valid.
      */
-    public function isNumeric($arg)
+    protected function isNumeric($arg)
     {
         if (!is_numeric($arg)) {
             throw new \InvalidArgumentException('Argument should be a valid number.');
@@ -51,7 +51,7 @@ trait Validator
      *
      * @return bool True if the specified argument is valid.
      */
-    public function isIterable($arg)
+    protected function isIterable($arg)
     {
         if (is_array($arg) || $arg instanceof \IteratorAggregate) {
             return true;
@@ -69,7 +69,7 @@ trait Validator
      *
      * @return bool True if the specified argument is valid.
      */
-    public function isCallable($arg, $method = null)
+    protected function isCallable($arg, $method = null)
     {
 
         if (is_callable($arg) || is_callable([$arg, $method]) || class_exists($arg)) {
@@ -86,7 +86,7 @@ trait Validator
      *
      * @return bool True if the specified argument is valid.
      */
-    public function getType($arg)
+    protected function getType($arg)
     {
         $type = gettype($arg);
 
@@ -109,7 +109,7 @@ trait Validator
      *
      * @return bool True if the specified arguments are of the same type.
      */
-    public function sameType($arg1, $arg2)
+    protected function sameType($arg1, $arg2)
     {
         return $this->getType($arg1) === $this->getType($arg2);
     }

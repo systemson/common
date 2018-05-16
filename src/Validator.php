@@ -9,35 +9,31 @@ trait Validator
      *
      * @param string $arg The argument to validate.
      *
-     * @throws \InvalidArgumentException
-     *
-     * @return bool True if the specified argument is valid.
+     * @return bool True if the specified argument is valid. False if it does not.
      */
     protected function isString($arg)
     {
-        if (!is_string($arg) || $arg === '') {
-            throw new \InvalidArgumentException('Argument should be a non empty string.');
+        if (is_string($arg) && $arg !== '') {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
-     * Checks if the specified argument is a valid string.
+     * Checks if the specified argument is a valid number.
      *
      * @param string $arg The argument to validate.
      *
-     * @throws \InvalidArgumentException
-     *
-     * @return bool True if the specified argument is valid.
+     * @return bool True if the specified argument is valid. False if it does not.
      */
     protected function isNumeric($arg)
     {
-        if (!is_numeric($arg)) {
-            throw new \InvalidArgumentException('Argument should be a valid number.');
+        if (is_numeric($arg)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -47,9 +43,7 @@ trait Validator
      *
      * @param array|object $arg The argument to validate.
      *
-     * @throws \InvalidArgumentException
-     *
-     * @return bool True if the specified argument is valid.
+     * @return bool True if the specified argument is valid. False if it does not.
      */
     protected function isIterable($arg)
     {
@@ -57,7 +51,7 @@ trait Validator
             return true;
         }
 
-        throw new \InvalidArgumentException('Argument should be an array or an iterable object.');
+        return false;
     }
 
     /**
@@ -65,37 +59,47 @@ trait Validator
      *
      * @param mixed $arg The argument to validate.
      *
-     * @throws \InvalidArgumentException
-     *
-     * @return bool True if the specified argument is valid.
+     * @return bool True if the specified argument is valid. False if it does not.
      */
     protected function isCallable($arg, $method = null)
     {
 
-        if (is_callable($arg) || is_callable([$arg, $method]) || class_exists($arg)) {
+        if (is_callable($arg) || is_callable([$arg, $method]) || $this->isClass($arg)) {
             return true;
         }
 
-        throw new \InvalidArgumentException('Argument should be a valid class, an object or a function.');
+        return false;
     }
 
     /**
-     * Checks for the type of the provided argument.
+     * Checks if the specified argument is a valid class.
      *
      * @param mixed $arg The argument to validate.
      *
-     * @return bool True if the specified argument is valid.
+     * @return bool True if the specified argument is valid. False if it does not.
+     */
+    protected function isClass($arg)
+    {
+        if ($this->isString($arg) && class_exists($arg)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the type of the provided argument.
+     *
+     * @param mixed $arg The argument to validate.
+     *
+     * @return bool True if the specified argument is valid. False if it does not.
      */
     protected function getType($arg)
     {
         $type = gettype($arg);
 
-        try {
-            if ($type == 'string' && $this->isCallable($arg)) {
-                return 'class';
-            }
-        } catch (\InvalidArgumentException $e) {
-            return $type;
+        if ($this->isClass($arg)) {
+            return 'class';
         }
 
         return $type;
@@ -107,11 +111,10 @@ trait Validator
      * @param mixed $arg1 The first argument to validate.
      * @param mixed $arg2 The second argument to validate.
      *
-     * @return bool True if the specified arguments are of the same type.
+     * @return bool True if the specified arguments are of the same type. False if they do not.
      */
     protected function sameType($arg1, $arg2)
     {
         return $this->getType($arg1) === $this->getType($arg2);
     }
 }
-

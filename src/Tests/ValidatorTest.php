@@ -1,8 +1,8 @@
 <?php
 
-namespace Amber\Cache\Tests;
+namespace Amber\Tests;
 
-use Amber\Common\Validator;
+use Amber\Validator\Validator;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase

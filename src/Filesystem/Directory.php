@@ -2,34 +2,17 @@
 
 namespace Amber\Sketch\Engine;
 
+use League\Flysystem\Directory as base;
+
 /**
  * Handle directories in the file system.
  */
-class Directory
+class Directory extends base
 {
     /**f
      * @var string The name of the directory.
      */
     public $name;
-
-    /**
-     * @var string The path to the directory.
-     */
-    public $path;
-
-    /**
-     * Instantiate the directory.
-     *
-     * @param string $name The name of the directory.
-     * @param string $path The path to the directory.
-     *
-     * @return void
-     */
-    public function __construct($name, $path)
-    {
-        $this->name = $name;
-        $this->path = $path;
-    }
 
     /**
      * Checks if the directory exists.
@@ -38,7 +21,7 @@ class Directory
      */
     public function exists()
     {
-        return Filesystem::has($this->path);
+        return $this->filesystem->has($this->path);
     }
 
     /**
@@ -49,7 +32,7 @@ class Directory
     public function create()
     {
         if (!$this->exists()) {
-            Filesystem::createDir($this->path);
+            $this->filesystem->createDir($this->path);
         }
     }
 
@@ -61,7 +44,7 @@ class Directory
     public function delete()
     {
         if ($this->exists()) {
-            Filesystem::deleteDir($this->path);
+            $this->filesystem->deleteDir($this->path);
         }
     }
 }

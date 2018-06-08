@@ -10,12 +10,7 @@ class Directories
     /**
      * @var array The v names and their paths.
      */
-    public static $directories = [
-        'views'    => '/app/views/',
-        'layouts'  => '/app/views/layouts/',
-        'includes' => '/app/views/includes/',
-        'cache'    => '/tmp/views/',
-    ];
+    public static $directories = [];
 
     /**
      * Get or set the directory.
@@ -31,6 +26,7 @@ class Directories
 
             /* If the path is passed create a new Directory instance */
             return self::$directories[$name] = new Directory($name, $path);
+
         } else {
 
             /* If no path is passed return the directory object */

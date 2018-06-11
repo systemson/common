@@ -22,6 +22,18 @@ class File extends Base
     protected $original;
 
     /**
+     * Class constructor.
+     *
+     * @param string $path    The relative path to the file.
+     * @param string $content Optional. The content of the file.
+     */
+     public function __construct($path, $content = null)
+     {
+         parent::__construct(Filesystem::getInstance(), $path);
+         $this->original = $content;
+     }
+
+    /**
      * Gets the content of the file.
      *
      * @todo This method should return the safe content after sanitized.
@@ -47,6 +59,10 @@ class File extends Base
      */
     public function setContent($content)
     {
+        if ($this->original == null) {
+            $this->original = $content;
+        }
+
         $this->content = $content;
 
         return true;
@@ -57,15 +73,11 @@ class File extends Base
      *
      * @todo This method should return the safe content after sanitized.
      *
-     * @return string The content of the file.
+     * @return bool True on success.
      */
     public function save()
     {
-        if ($content !== $original) {
-            $this->filesystem->update($this->path, $this->content);
-            return true;
-        }
-
-        return false;
+        $this->filesystem->put($this->path, $this->content);
+        return true;
     }
 }

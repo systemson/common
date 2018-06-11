@@ -30,7 +30,10 @@ class File extends Base
      public function __construct($path, $content = null)
      {
          parent::__construct(Filesystem::getInstance(), $path);
-         $this->original = $content;
+
+         if ($this->exists()) {
+             $this->content = $this->getContent();
+         }
      }
 
     /**
@@ -42,11 +45,9 @@ class File extends Base
      */
     public function getContent()
     {
-        if ($this->original == null) {
-            $this->original = $this->filesystem->read($this->path);
-            $this->content = $this->original;
+        if ($this->exists()) {
+            return $this->filesystem->read($this->path);
         }
-
         return $this->content;
     }
 
@@ -59,10 +60,6 @@ class File extends Base
      */
     public function setContent($content)
     {
-        if ($this->original == null) {
-            $this->original = $content;
-        }
-
         $this->content = $content;
 
         return true;
@@ -77,7 +74,22 @@ class File extends Base
      */
     public function save()
     {
-        $this->filesystem->put($this->path, $this->content);
-        return true;
+        if ($this->original != $this->content) {
+            $this->filesystem->put($this->path, $this->getContent());
+            $this->original = $this->content;
+            return true;
+        }
+
+        return false;
+    }
+
+    public function __toArray()
+    {
+        return [
+            'name' => $this->name,
+            'path' => $this->path,
+            'content' => $this->getContent(),
+            'original' => $this->original,
+        ];
     }
 }

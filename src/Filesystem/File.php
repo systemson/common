@@ -27,19 +27,27 @@ class File extends Base
      * @param string $path    The relative path to the file.
      * @param string $content Optional. The content of the file.
      */
-     public function __construct($path, $content = null)
-     {
-         parent::__construct(Filesystem::getInstance(), $path);
+    public function __construct($path, $content = null)
+    {
+        parent::__construct(Filesystem::getInstance(), $path);
 
-         if ($this->exists()) {
-             $this->content = $this->getContent();
-         }
-     }
+        if ($this->exists()) {
+            $this->content = $this->getContent();
+        }
+    }
+
+    /**
+     * Gets the absolute path of the file.
+     *
+     * @return string The absolute path of the file.
+     */
+    public function getFullPath()
+    {
+        return $this->getFilesystem()->getAdapter()->getPathPrefix().$this->path;
+    }
 
     /**
      * Gets the content of the file.
-     *
-     * @todo This method should return the safe content after sanitized.
      *
      * @return string The content of the file.
      */

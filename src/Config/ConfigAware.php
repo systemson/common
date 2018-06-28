@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Common\Config;
+namespace Amber\Config;
 
 trait ConfigAware
 {

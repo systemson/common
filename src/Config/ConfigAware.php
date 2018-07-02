@@ -21,6 +21,8 @@ trait ConfigAware
         foreach ($config as $key => $value) {
             $this->config[$key] = $value;
         }
+
+        return true;
     }
 
     /**
@@ -44,5 +46,33 @@ trait ConfigAware
         }
 
         return $config;
+    }
+
+    /**
+     * Cleares the config enviroment variables.
+     *
+     * @return void
+     */
+    public function clearConfig(string $key, $default = null)
+    {
+        $this->config = [];
+    }
+
+    /**
+     * Checks that the .
+     *
+     * @return void
+     */
+    public function validateConfig()
+    {
+        if (REQUIRED_CONFIG) {
+            foreach (REQUIRED_CONFIG as $required) {
+                if (!$this->get($required)) {
+                    throw new \Exception('The config is not ready. Missing {$required}.');
+                }
+            }
+        }
+
+        return true;
     }
 }

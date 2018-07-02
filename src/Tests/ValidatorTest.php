@@ -9,7 +9,7 @@ class ValidatorTest extends TestCase
 {
     use Validator;
 
-    public function testTrueValidationsCache()
+    public function testValidations()
     {
         $string = 'string';
         $class = TestCase::class;

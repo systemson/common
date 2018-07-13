@@ -56,6 +56,7 @@ class File extends Base
         if ($this->exists()) {
             return $this->filesystem->read($this->path);
         }
+
         return $this->content;
     }
 
@@ -85,6 +86,7 @@ class File extends Base
         if ($this->original != $this->content) {
             $this->filesystem->put($this->path, $this->getContent());
             $this->original = $this->content;
+
             return true;
         }
 
@@ -94,9 +96,9 @@ class File extends Base
     public function __toArray()
     {
         return [
-            'name' => $this->name,
-            'path' => $this->path,
-            'content' => $this->getContent(),
+            'name'     => $this->name,
+            'path'     => $this->path,
+            'content'  => $this->getContent(),
             'original' => $this->original,
         ];
     }

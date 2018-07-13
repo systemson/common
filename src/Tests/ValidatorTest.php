@@ -14,13 +14,14 @@ class ValidatorTest extends TestCase
         $string = 'string';
         $class = TestCase::class;
         $array = [];
-        $function = function () {};
+        $function = function () {
+        };
         $validator = $this->getMockForTrait(Validator::class);
 
         /* Test strings */
         $this->assertTrue($this->isString($string));
         $this->assertTrue($this->isString($class));
-        $this->assertTrue($this->isString("2"));
+        $this->assertTrue($this->isString('2'));
 
         $this->assertFalse($this->isString(1));
         $this->assertFalse($this->isString($array));
@@ -30,7 +31,7 @@ class ValidatorTest extends TestCase
         /* Test number */
         $this->assertTrue($this->isNumeric(1));
         $this->assertTrue($this->isNumeric(1.1));
-        $this->assertTrue($this->isNumeric("2.5"));
+        $this->assertTrue($this->isNumeric('2.5'));
         $this->assertFalse($this->isString(1));
 
         $this->assertFalse($this->isNumeric($string));
@@ -38,10 +39,9 @@ class ValidatorTest extends TestCase
         $this->assertFalse($this->isNumeric($function));
         $this->assertFalse($this->isNumeric($validator));
 
-
         /* Test iterable */
         $this->assertTrue($this->isIterable([]));
-        $this->assertTrue($this->isIterable([1,2]));
+        $this->assertTrue($this->isIterable([1, 2]));
         $this->assertTrue($this->isIterable($this->createMock(\IteratorAggregate::class)));
 
         $this->assertFalse($this->isIterable(1));
@@ -50,8 +50,11 @@ class ValidatorTest extends TestCase
         $this->assertFalse($this->isIterable($validator));
 
         /* Test callable */
-        $this->assertTrue($this->isCallable(function () {}));
-        $this->assertTrue($this->isCallable(function ($arg) {return $arg;}));
+        $this->assertTrue($this->isCallable(function () {
+        }));
+        $this->assertTrue($this->isCallable(function ($arg) {
+            return $arg;
+        }));
         $this->assertTrue($this->isCallable($class));
         $this->assertTrue($this->isCallable('PHPUnit\Framework\TestCase'));
         $this->assertTrue($this->isCallable($class, 'assertTrue'));
@@ -84,7 +87,7 @@ class ValidatorTest extends TestCase
         /* Test same type */
         $this->assertTrue($this->sameType('first', 'second'));
         $this->assertTrue($this->sameType(2, 5));
-        $this->assertTrue($this->sameType([], [1,2,3]));
+        $this->assertTrue($this->sameType([], [1, 2, 3]));
         $this->assertTrue($this->sameType($this->createMock(\IteratorAggregate::class), new \stdClass()));
     }
 }

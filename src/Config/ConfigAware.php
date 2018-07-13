@@ -28,7 +28,7 @@ trait ConfigAware
     /**
      * gets a config enviroment variables by it's key.
      *
-     * @param string $key The key to search for.
+     * @param string $key     The key to search for.
      * @param mixed  $default The defualt value to return if the key is not found.
      *
      * @return mixed The config value.

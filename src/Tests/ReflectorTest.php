@@ -2,9 +2,9 @@
 
 namespace Amber\Container\Tests;
 
-use Amber\Reflector\Reflector;
 use Amber\Reflector\Example\Controller;
 use Amber\Reflector\Example\Model;
+use Amber\Reflector\Reflector;
 use PHPUnit\Framework\TestCase;
 
 class ReflectorTest extends TestCase

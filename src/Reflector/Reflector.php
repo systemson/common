@@ -2,7 +2,7 @@
 
 namespace Amber\Reflector;
 
-class Reflector 
+class Reflector
 {
     /**
      * @var string The name of the class.

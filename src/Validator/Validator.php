@@ -63,7 +63,6 @@ trait Validator
      */
     protected function isCallable($arg, $method = null)
     {
-
         if (is_callable($arg) || is_callable([$arg, $method]) || $this->isClass($arg)) {
             return true;
         }

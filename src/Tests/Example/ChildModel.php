@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Reflector\Example;
+namespace Amber\Tests\Example;
 
 class ChildModel extends Model
 {

@@ -20,7 +20,15 @@ class ConfigTest extends TestCase
 
         $config = $this->getMockForTrait(ConfigAware::class);
 
+        /* Tests setting the configs */
         $this->assertTrue($config->setConfig($variables));
+
+        /* Tests that settings are correct */
         $this->assertEquals('value1', $config->getConfig('required1'));
+
+        /* Empties the config */
+        $config->clearConfig();
+
+        $this->assertEquals('default', $config->getConfig('required1', 'default'));
     }
 }

@@ -53,7 +53,7 @@ trait ConfigAware
      *
      * @return void
      */
-    public function clearConfig(string $key, $default = null)
+    public function clearConfig()
     {
         $this->config = [];
     }
@@ -65,8 +65,8 @@ trait ConfigAware
      */
     public function validateConfig()
     {
-        if (REQUIRED_CONFIG) {
-            foreach (REQUIRED_CONFIG as $required) {
+        if (static::REQUIRED_CONFIG) {
+            foreach (static::REQUIRED_CONFIG as $required) {
                 if (!$this->get($required)) {
                     throw new \Exception('The config is not ready. Missing {$required}.');
                 }

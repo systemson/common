@@ -1,18 +1,18 @@
 <?php
 
-namespace Amber\Reflector\Example;
+namespace Amber\Tests\Example;
 
 class Controller
 {
     /**
-     * @inject Amber\Container\Tests\Example\View
+     * @inject Amber\Tests\Example\View
      *
      * @var string
      */
     public $view;
 
     /**
-     * @var Amber\Container\Tests\Example\Model
+     * @var Amber\Tests\Example\Model
      */
     public $model;
 

@@ -1,41 +1,45 @@
 <?php
 
-namespace Amber\Container\Tests;
+namespace Amber\Tests;
 
-use Amber\Reflector\Example\Controller;
-use Amber\Reflector\Example\Model;
 use Amber\Reflector\Reflector;
+use Amber\Tests\Example\Controller;
+use Amber\Tests\Example\Model;
 use PHPUnit\Framework\TestCase;
 
 class ReflectorTest extends TestCase
 {
     public function testReflector()
     {
-        $class = Controller::class;
-        $reflection = new Reflector($class);
+        $controller_reflection = new Reflector(Controller::class);
+        $model_reflection = new Reflector(Model::class);
 
         /* Test reflection instance. */
         $this->assertInstanceOf(
             \ReflectionClass::class,
-            $reflection->reflection
+            $controller_reflection->reflection
         );
 
         /* Test if the instance returned by inflector is an instance of ReflectorClass. */
         $this->assertInstanceOf(
-            $class,
-            $reflection->newInstance([1, new Model()])
+            Controller::class,
+            $controller_reflection->newInstance([1, new Model()])
+        );
+        $this->assertInstanceOf(
+            Model::class,
+            $model_reflection->newInstance()
         );
 
         /* Test if the Reflector class reads the injectable properties */
         $this->assertSame(
             'view',
-            $reflection->getInjectables()[0]->name
+            $controller_reflection->getInjectables()[0]->name
         );
 
         /* Test that the injectable property prevents from being readed twice. */
         $this->assertSame(
-            $reflection->getInjectables(),
-            $reflection->getInjectables()
+            $controller_reflection->getInjectables(),
+            $controller_reflection->getInjectables()
         );
     }
 }

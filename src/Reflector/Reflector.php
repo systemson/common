@@ -15,14 +15,14 @@ class Reflector
     public $reflection;
 
     /**
-     * @var array An array of ReflectionProperty instances from the constructor properties.
-     */
-    public $properties;
-
-    /**
      * @var array An array of the parameters for the constructor.
      */
     public $parameters;
+
+    /**
+     * @var array An array of ReflectionProperty instances from the constructor properties.
+     */
+    protected $properties;
 
     /**
      * @var array An array of ReflectionProperty instances for the injectable properties.
@@ -109,7 +109,7 @@ class Reflector
 
         foreach ($this->properties as $property) {
             if (preg_match(
-                "'@inject\s(.*?)[\s\r\n|\r|\n]'",
+                "'@inject\s(.*?)[\s\r\n|\r|\n|\s]'",
                 $property->getDocComment(),
                 $match
             )) {

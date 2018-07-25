@@ -43,7 +43,7 @@ class File extends Base
      */
     public function getFullPath()
     {
-        return $this->getFilesystem()->getAdapter()->getPathPrefix().$this->path;
+        return $this->getFilesystem()->getAdapter()->getPathPrefix() . $this->path;
     }
 
     /**

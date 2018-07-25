@@ -3,7 +3,6 @@
 namespace Amber\Sketch\Engine;
 
 use League\Flysystem\Directory as base;
-
 /**
  * Handle directories in the file system.
  */

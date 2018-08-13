@@ -2,7 +2,7 @@
 
 namespace Amber\Tests;
 
-use Amber\Config\ConfigAware;
+use Amber\Config\ConfigAwareTrait;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
@@ -18,7 +18,7 @@ class ConfigTest extends TestCase
             'optional4' => 'value6',
         ];
 
-        $config = $this->getMockForTrait(ConfigAware::class);
+        $config = $this->getMockForTrait(ConfigAwareTrait::class);
 
         /* Tests setting the configs */
         $this->assertTrue($config->setConfig($variables));

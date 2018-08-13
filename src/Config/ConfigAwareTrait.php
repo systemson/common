@@ -2,7 +2,7 @@
 
 namespace Amber\Config;
 
-trait ConfigAware
+trait ConfigAwareTrait
 {
     /**
      * @var array The config container.
@@ -26,7 +26,7 @@ trait ConfigAware
     }
 
     /**
-     * gets a config enviroment variables by it's key.
+     * Gets a config enviroment variable by it's unique key.
      *
      * @param string $key     The key to search for.
      * @param mixed  $default The defualt value to return if the key is not found.
@@ -59,7 +59,7 @@ trait ConfigAware
     }
 
     /**
-     * Checks that the .
+     * Checks that the required config enviroment variables are being set.
      *
      * @return void
      */
@@ -68,7 +68,7 @@ trait ConfigAware
         if (static::REQUIRED_CONFIG) {
             foreach (static::REQUIRED_CONFIG as $required) {
                 if (!$this->get($required)) {
-                    throw new \Exception('The config is not ready. Missing {$required}.');
+                    return false;
                 }
             }
         }

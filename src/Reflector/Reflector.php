@@ -56,7 +56,6 @@ class Reflector
         /* Instantiate the ReflectionClass */
         $this->name = $class;
         $this->reflection = $reflection;
-        $this->properties = $reflection->getProperties();
         $this->parameters = $params;
         $this->constructor = (object) [
             'reflection' => $constructor,
@@ -76,6 +75,20 @@ class Reflector
         }
 
         return $this->methods;
+    }
+
+    /**
+     * Gets the public properties of the reflected class.
+     *
+     * @return array An array of the class public properties.
+     */
+    public function getProperties()
+    {
+        if (empty($this->properties)) {
+            $this->properties = $this->reflection->getProperties(\ReflectionMethod::IS_PUBLIC);
+        }
+
+        return $this->properties;
     }
 
     /**
@@ -107,7 +120,7 @@ class Reflector
             return $this->injectables;
         }
 
-        foreach ($this->properties as $property) {
+        foreach ($this->getProperties() as $property) {
             if (preg_match(
                 "'@inject\s(.*?)[\s\r\n|\r|\n|\s]'",
                 $property->getDocComment(),

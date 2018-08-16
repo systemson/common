@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Tests\Example;
+namespace Tests\Example;
 
 class Controller
 {

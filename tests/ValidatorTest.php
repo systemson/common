@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Tests;
+namespace Tests;
 
 use Amber\Validator\Validator;
 use PHPUnit\Framework\TestCase;

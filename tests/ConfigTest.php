@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Tests;
+namespace Tests;
 
 use Amber\Config\ConfigAwareTrait;
 use PHPUnit\Framework\TestCase;

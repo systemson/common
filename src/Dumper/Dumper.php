@@ -6,7 +6,7 @@ use Amber\Validator\Validator;
 use Amber\Reflector\Reflector;
 
 /**
- * 
+ *
  */
 class Dumper
 {

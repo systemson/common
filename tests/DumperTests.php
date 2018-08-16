@@ -10,9 +10,7 @@ class DumperTest extends TestCase
     public function testDumper()
     {
         $dumper = new Dumper(
-            new class
-            {
-
+            new class {
                 public $string = 'string';
 
                 public $number = 1;

@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Amber\Config\ConfigAwareTrait;
+use Amber\Config\ConfigAwareClass;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
@@ -18,13 +18,16 @@ class ConfigTest extends TestCase
             'optional4' => 'value6',
         ];
 
-        $config = $this->getMockForTrait(ConfigAwareTrait::class);
+        $config = $this->getMockForAbstractClass(ConfigAwareClass::class);
 
-        /* Tests setting the configs */
+        /* Set the config vars */
         $this->assertTrue($config->setConfig($variables));
 
-        /* Tests that settings are correct */
+        /* Gets a config var previosly setted */
         $this->assertEquals('value1', $config->getConfig('required1'));
+
+        /* Gets a config var from a class constant */
+        $this->assertEquals('local', $config->getConfig('environment'));
 
         /* Empties the config */
         $config->clearConfig();

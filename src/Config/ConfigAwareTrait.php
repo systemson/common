@@ -40,6 +40,8 @@ trait ConfigAwareTrait
         foreach (explode('.', $key) as $search) {
             if (isset($config[$search])) {
                 $config = $config[$search];
+            } elseif (defined('static::' . strtoupper($search))) {
+                return constant('static::' . strtoupper($search));
             } else {
                 return $default;
             }

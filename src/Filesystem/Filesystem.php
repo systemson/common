@@ -32,7 +32,7 @@ class Filesystem
         if (!self::$instance instanceof Flysystem) {
 
             /** Local instance */
-            $local = new Local($basepath ?? getcwd());
+            $local = new Local(self::fixPath($basepath) ?? getcwd());
 
             /* Instantiate the League/Flysystem class */
             self::$instance = new Flysystem($local);
@@ -47,11 +47,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function has($path)
     {
-        return self::getInstance()->has($path);
+        return self::getInstance()->has(self::fixPath($path));
     }
 
     /**
@@ -60,11 +60,11 @@ class Filesystem
      * @param $path The relative path to file.
      * @param $content The content of the file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function put($path, $content = null)
     {
-        return self::getInstance()->put($path, $content);
+        return self::getInstance()->put(self::fixPath($path), $content);
     }
 
     /**
@@ -72,11 +72,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function read($path)
     {
-        return self::getInstance()->read($path);
+        return self::getInstance()->read(self::fixPath($path));
     }
 
     /**
@@ -84,11 +84,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function delete($path)
     {
-        return self::getInstance()->delete($path);
+        return self::getInstance()->delete(self::fixPath($path));
     }
 
     /**
@@ -96,11 +96,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function rename($path, $new_path)
     {
-        return self::getInstance()->rename($path, $new_path);
+        return self::getInstance()->rename(self::fixPath($path), self::fixPath($new_path));
     }
 
     /**
@@ -108,11 +108,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns mixed
+     * @return mixed
      */
     public static function getMimetype($path)
     {
-        return self::getInstance()->getMimetype($path);
+        return self::getInstance()->getMimetype(self::fixPath($path));
     }
 
     /**
@@ -120,11 +120,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns integer
+     * @return integer
      */
     public static function getTimestamp($path)
     {
-        return self::getInstance()->getTimestamp($path);
+        return self::getInstance()->getTimestamp(self::fixPath($path));
     }
 
     /**
@@ -132,12 +132,12 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns object Carbon instance with the last edited date.
+     * @return object Carbon instance with the last edited date.
      */
     public static function getLastUpdate($path)
     {
         return Carbon::createFromTimestamp(
-            self::getTimestamp($path)
+            self::getTimestamp(self::fixPath($path))
         )->format('Y-m-d H:m:s');
     }
 
@@ -146,11 +146,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns integer
+     * @return integer
      */
     public static function getSize($path)
     {
-        return self::getInstance()->getSize($path);
+        return self::getInstance()->getSize(self::fixPath($path));
     }
 
     /**
@@ -158,11 +158,11 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function createDir($path)
     {
-        return self::getInstance()->createDir($path);
+        return self::getInstance()->createDir(self::fixPath($path));
     }
 
     /**
@@ -170,10 +170,18 @@ class Filesystem
      *
      * @param $path The relative path to file.
      *
-     * @returns bool
+     * @return bool
      */
     public static function deleteDir($path)
     {
-        return self::getInstance()->deleteDir($path);
+        return self::getInstance()->deleteDir(self::fixPath($path));
+    }
+
+    /**
+     *
+     */
+    protected static function fixPath($path)
+    {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path)
     }
 }

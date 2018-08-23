@@ -182,6 +182,6 @@ class Filesystem
      */
     protected static function fixPath($path)
     {
-        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path)
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
     }
 }

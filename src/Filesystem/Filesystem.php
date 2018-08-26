@@ -80,6 +80,27 @@ class Filesystem
     }
 
     /**
+     * Adds content at the end a file from the file system.
+     *
+     * @param $path    The relative path to file.
+     * @param $content The new content to push in the file.
+     *
+     * @return bool
+     */
+    public static function push($path, $content)
+    {
+        $path = self::fixPath($path);
+
+        if (self::getInstance()->has($path)) {
+            $old_content = self::getInstance()->read($path);
+
+            $content = $old_content . "\r\n" . $content;
+        }
+
+        return self::getInstance()->put($path, $content);
+    }
+
+    /**
      * Deletes a file from the file system.
      *
      * @param $path The relative path to file.
@@ -178,10 +199,22 @@ class Filesystem
     }
 
     /**
+     * Scans a directory.
+     *
+     * @param $path The relative path to file.
+     *
+     * @return bool
+     */
+    public static function listContents($path, $recursive = false)
+    {
+        return self::getInstance()->listContents(self::fixPath($path, $recursive));
+    }
+
+    /**
      *
      */
     protected static function fixPath($path)
     {
-        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+        return str_replace(['/', '//', '\\', '\\\\'], DIRECTORY_SEPARATOR, $path);
     }
 }

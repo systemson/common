@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 
 interface FileSystemAwareInterface
 {
-    public function setFilesystem(Filesystem $filesystem);
+    public function setFilesystem(Filesystem $filesystem): void;
 
     public function getFilesystem(): Filesystem;
 }

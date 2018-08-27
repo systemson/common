@@ -3,7 +3,6 @@
 /**
  * Taken from comments in http://php.net/manual/es/function.var-dump.php
  */
-
 function dump_debug($input, $collapse=false) {
 
     $recursive = function($data, $level=0) use (&$recursive, $collapse) {

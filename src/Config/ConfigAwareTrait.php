@@ -12,6 +12,8 @@ trait ConfigAwareTrait
     /**
      * Sets the config enviroment variables.
      *
+     * @todo Should return void.
+     *
      * @param array $config A asociative array containing the config variables.
      *
      * @return void
@@ -69,7 +71,7 @@ trait ConfigAwareTrait
     {
         if (static::REQUIRED_CONFIG) {
             foreach (static::REQUIRED_CONFIG as $required) {
-                if (!$this->get($required)) {
+                if (!$this->getConfig($required)) {
                     return false;
                 }
             }

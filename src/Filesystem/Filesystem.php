@@ -8,6 +8,8 @@ use League\Flysystem\Filesystem as Flysystem;
 
 /**
  * A static singleton like implementation of the League/Flysystem class.
+ *
+ * @todo Must implement Amber\Config\ConfigAwareInterface
  */
 class Filesystem
 {

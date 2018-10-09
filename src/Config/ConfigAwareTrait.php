@@ -4,10 +4,12 @@ namespace Amber\Config;
 
 trait ConfigAwareTrait
 {
+    use CollectionAwareTrait;
+
     /**
-     * @var array The config container.
+     * @var Amber\Collection\Collection.
      */
-    protected $config = [];
+    protected $config;
 
     /**
      * Sets the config enviroment variables.
@@ -21,7 +23,7 @@ trait ConfigAwareTrait
     public function setConfig(array $config)
     {
         foreach ($config as $key => $value) {
-            $this->config[$key] = $value;
+            $this->getCollection()->put($key, $value);
         }
 
         return true;
@@ -37,7 +39,7 @@ trait ConfigAwareTrait
      */
     public function getConfig(string $key, $default = null)
     {
-        $config = $this->config;
+        $config = $this->getCollection()->all();
 
         foreach (explode('.', $key) as $search) {
             if (isset($config[$search])) {
@@ -53,13 +55,23 @@ trait ConfigAwareTrait
     }
 
     /**
+     * Gets and array with all the config vars.
+     *
+     * @return array The config vars
+     */
+    public function getConfigs()
+    {
+        return $this->getCollection()->all();
+    }
+
+    /**
      * Cleares the config enviroment variables.
      *
      * @return void
      */
     public function clearConfig()
     {
-        $this->config = [];
+        $this->getCollection()->clear();
     }
 
     /**

@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "Amber\\": "src/"
-        }
+        },
+        "files": [
+            "src/Dumper/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -24,7 +27,8 @@
     "require": {
         "php": ">=7.0.0",
         "nesbot/carbon": "^1.22",
-        "league/flysystem": "^1.0"
+        "league/flysystem": "^1.0",
+        "amber/collection": "^0.1.1@beta"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.0",

@@ -28,7 +28,7 @@
         "php": ">=7.0.0",
         "nesbot/carbon": "^1.22",
         "league/flysystem": "^1.0",
-        "amber/collection": "dev-master"
+        "amber/collection": "^0.1.4@beta"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.0",

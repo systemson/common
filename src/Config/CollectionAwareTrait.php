@@ -12,27 +12,13 @@ trait CollectionAwareTrait
     protected $config;
 
     /**
-     * Sets the Collection instance.
-     *
-     * @todo Should return type void.
-     *
-     * @param CacheDriver $collection An instance of the Collection.
-     *
-     * @return void
-     */
-    public function setCollection(Collection $collection)
-    {
-        $this->config = $collection;
-    }
-
-    /**
      * Gets the Collection instance.
      *
      * @param array $array An instance of the Collection instance.
      *
      * @return array The instance of the Collection.
      */
-    public function getCollection(array $array = []): Collection
+    public function getConfigContainer(array $array = []): Collection
     {
         /* Checks if the CacheInterface is already instantiated. */
         if (!$this->config instanceof Collection) {

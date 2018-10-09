@@ -23,7 +23,7 @@ trait ConfigAwareTrait
     public function setConfig(array $config)
     {
         foreach ($config as $key => $value) {
-            $this->getCollection()->put($key, $value);
+            $this->getConfigContainer()->put($key, $value);
         }
 
         return true;
@@ -39,7 +39,7 @@ trait ConfigAwareTrait
      */
     public function getConfig(string $key, $default = null)
     {
-        $config = $this->getCollection()->all();
+        $config = $this->getConfigContainer()->all();
 
         foreach (explode('.', $key) as $search) {
             if (isset($config[$search])) {
@@ -61,7 +61,7 @@ trait ConfigAwareTrait
      */
     public function getConfigs()
     {
-        return $this->getCollection()->all();
+        return $this->getConfigContainer()->all();
     }
 
     /**
@@ -71,7 +71,7 @@ trait ConfigAwareTrait
      */
     public function clearConfig()
     {
-        $this->getCollection()->clear();
+        $this->getConfigContainer()->clear();
     }
 
     /**

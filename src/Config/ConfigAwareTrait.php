@@ -4,8 +4,6 @@ namespace Amber\Config;
 
 trait ConfigAwareTrait
 {
-    use CollectionAwareTrait;
-
     /**
      * @var Amber\Collection\Collection.
      */

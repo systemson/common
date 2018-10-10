@@ -91,4 +91,21 @@ trait ConfigAwareTrait
 
         return true;
     }
+
+    /**
+     * Gets the Config's Collection.
+     *
+     * @param array $array An instance of the Collection instance.
+     *
+     * @return array The instance of the Collection.
+     */
+    protected function getConfigContainer(): Collection
+    {
+        /* Checks if the CacheInterface is already instantiated. */
+        if (!$this->config instanceof Collection) {
+            $this->config = new Collection();
+        }
+
+        return $this->config;
+    }
 }

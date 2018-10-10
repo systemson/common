@@ -2,6 +2,8 @@
 
 namespace Amber\Config;
 
+use Amber\Collection\Collection;
+
 trait ConfigAwareTrait
 {
     /**

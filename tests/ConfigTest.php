@@ -3,11 +3,12 @@
 namespace Tests;
 
 use Amber\Config\ConfigAwareClass;
+use Amber\Config\Config;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-    public function testTrueValidationsCache()
+    public function testConfig()
     {
         $variables = [
             'required1' => 'value1',
@@ -32,6 +33,35 @@ class ConfigTest extends TestCase
         /* Empties the config */
         $config->clearConfig();
 
+        /* Gets deault value */
         $this->assertEquals('default', $config->getConfig('required1', 'default'));
+
+        /* Empties the config */
+        $config->clearConfig();
+
+        return $config;
+    }
+
+    /**
+     * @depends testConfig
+     */
+    public function testMultidimensionalConfigs($config)
+    {
+        $variables = [
+            'first' => [
+                'second' => [
+                    'third' => 'value',
+                ],
+            ],
+        ];
+
+        /* Set the config vars */
+        $this->assertTrue($config->setConfig($variables));
+
+        /* Gets a config var previosly setted */
+        $this->assertTrue($config->hasConfig('first.second.third'));
+
+        /* Gets a config var previosly setted */
+        $this->assertEquals('value', $config->getConfig('first.second.third', 'default'));
     }
 }

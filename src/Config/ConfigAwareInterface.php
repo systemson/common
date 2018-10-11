@@ -20,10 +20,10 @@ interface ConfigAwareInterface
     /**
      * Gets a config enviroment variable by it's unique key.
      *
-     * @param string $key     The key to search for.
-     * @param mixed  $default The defualt value to return if the key is not found.
+     * @param string|array $index   The key to search for | an array with key => value pair(s).
+     * @param mixed        $default The defualt value to return if the key is not found.
      *
      * @return mixed The config value.
      */
-    public function getConfig(string $key, $default = null);
+    public function getConfig(string $index, $default = null);
 }

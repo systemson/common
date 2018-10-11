@@ -32,7 +32,6 @@ class Filesystem
     {
         /* Checks if the League/Flysystem is already instantiated. */
         if (!self::$instance instanceof Flysystem) {
-
             $basepath = $basepath != null ? self::fixPath($basepath) : getcwd();
             /** Local instance */
             $local = new Local($basepath);

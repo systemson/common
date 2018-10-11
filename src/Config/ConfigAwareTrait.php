@@ -22,9 +22,7 @@ trait ConfigAwareTrait
      */
     public function setConfig(array $config)
     {
-        foreach ($config as $key => $value) {
-            $this->getConfigContainer()->put($key, $value);
-        }
+        Config::set($config);
 
         return true;
     }
@@ -39,19 +37,15 @@ trait ConfigAwareTrait
      */
     public function getConfig(string $key, $default = null)
     {
-        $config = $this->getConfigContainer()->all();
-
-        foreach (explode('.', $key) as $search) {
-            if (isset($config[$search])) {
-                $config = $config[$search];
-            } elseif (defined('static::' . strtoupper($search))) {
-                return constant('static::' . strtoupper($search));
-            } else {
-                return $default;
-            }
+        if (Config::has($key)) {
+            return Config::get($key);
         }
 
-        return $config;
+        if (defined('static::' . strtoupper($key))) {
+            return constant('static::' . strtoupper($key));
+        }
+
+        return $default;
     }
 
     /**
@@ -59,9 +53,19 @@ trait ConfigAwareTrait
      *
      * @return array The config vars
      */
-    public function getConfigs()
+    public function getConfigs(array $array = [])
     {
-        return $this->getConfigContainer()->all();
+        return Config::all();
+    }
+
+    /**
+     * Whether a config enviroment variable is present in the container.
+     *
+     * @return bool
+     */
+    public function hasConfig($key)
+    {
+        return Config::has($key);
     }
 
     /**
@@ -71,7 +75,7 @@ trait ConfigAwareTrait
      */
     public function clearConfig()
     {
-        $this->getConfigContainer()->clear();
+        Config::clear();
     }
 
     /**
@@ -90,22 +94,5 @@ trait ConfigAwareTrait
         }
 
         return true;
-    }
-
-    /**
-     * Gets the Config's Collection.
-     *
-     * @param array $array An instance of the Collection instance.
-     *
-     * @return array The instance of the Collection.
-     */
-    protected function getConfigContainer(): Collection
-    {
-        /* Checks if the CacheInterface is already instantiated. */
-        if (!$this->config instanceof Collection) {
-            $this->config = new Collection();
-        }
-
-        return $this->config;
     }
 }

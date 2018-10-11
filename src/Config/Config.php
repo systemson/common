@@ -29,7 +29,7 @@ class Config extends Singleton
     public static function set($config)
     {
         foreach ($config as $key => $value) {
-             self::getInstance()->set($key, $value);
+            self::getInstance()->set($key, $value);
         }
     }
 

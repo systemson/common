@@ -1,8 +1,11 @@
 <?php
 
-namespace Amber\Utils\Guidelines;
+namespace Amber\Utils\Implementations;
 
-abstract class Singleton
+/**
+ * Implementation of a singleton class.
+ */
+abstract class AbstractSingleton
 {
     /**
      * @var static The instance of the class.
@@ -11,22 +14,18 @@ abstract class Singleton
 
     /**
      * Prevents instantiation.
-     *
-     * @todo MUST return an exception on instantiation.
      */
-    final protected function __construct()
+    final public function __construct()
     {
-        //
+        throw new \Exception("Cannot instantiate \"{__CLASS__}\"");
     }
 
     /**
      * Prevents clonation.
-     *
-     * @todo MUST return an exception on clonation.
      */
     final protected function __clone()
     {
-        //
+        throw new \Exception("Cannot clon an instance of \"{__CLASS__}\"");
     }
 
     /**
@@ -34,7 +33,7 @@ abstract class Singleton
      */
     final public function __wakeup()
     {
-        throw new Exception("Cannot unserialize {__CLASS__}");
+        throw new \Exception("Cannot unserialize \"{__CLASS__}\"");
     }
 
     /**

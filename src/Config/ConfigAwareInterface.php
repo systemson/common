@@ -4,7 +4,7 @@ namespace Amber\Config;
 
 interface ConfigAwareInterface
 {
-    const ENVIRONMENT = 'local';
+    const ENVIRONMENT = 'production';
 
     /**
      * Sets the config enviroment variables.

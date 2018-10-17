@@ -3,14 +3,14 @@
 namespace Amber\Config;
 
 use Amber\Collection\Collection;
-use Amber\Utils\Guidelines\Singleton;
+use Amber\Utils\Implementations\AbstractSingleton;
 
 /**
  * Config provider class.
  *
- * This class stores and shares configurations throughout all the components.
+ * This class stores and shares configurations throughout the components.
  */
-class Config extends Singleton
+class Config extends AbstractSingleton
 {
     /**
      * Singleton implementation.

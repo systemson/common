@@ -28,7 +28,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('value1', $config->getConfig('required1'));
 
         /* Gets a config var from a class constant */
-        $this->assertEquals('local', $config->getConfig('environment'));
+        $this->assertEquals('production', $config->getConfig('environment'));
 
         /* Empties the config */
         $config->clearConfig();

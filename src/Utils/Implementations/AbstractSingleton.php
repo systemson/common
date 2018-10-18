@@ -8,7 +8,7 @@ namespace Amber\Utils\Implementations;
 abstract class AbstractSingleton
 {
     /**
-     * @var static The instance of the class.
+     * @var self The instance of the class.
      */
     protected static $instance;
 

@@ -10,6 +10,7 @@ use League\Flysystem\Filesystem as Flysystem;
  * A static singleton like implementation of the League/Flysystem class.
  *
  * @todo Must implement Amber\Config\ConfigAwareInterface
+ * @todo Must extend    Amber\Utils\Abstracts\AbstractSingleton
  */
 class Filesystem
 {
@@ -217,6 +218,6 @@ class Filesystem
      */
     protected static function fixPath($path)
     {
-        return str_replace(['/', '//', '\\', '\\\\'], DIRECTORY_SEPARATOR, $path);
+        return str_replace(['/', '//', '\\', '\\\\', '.'], DIRECTORY_SEPARATOR, $path);
     }
 }

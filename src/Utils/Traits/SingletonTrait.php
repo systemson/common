@@ -20,4 +20,9 @@ trait SingletonTrait
 
         return self::$instance;
     }
+
+    public static function __callStatic($method, $args = [])
+    {
+        call_user_func_array([self::getInstance(), $method], $args);
+    }
 }

@@ -12,6 +12,9 @@ use Amber\Utils\Implementations\AbstractSingleton;
  */
 class Config extends AbstractSingleton
 {
+
+    public static $instance;
+
     /**
      * Singleton implementation.
      */
@@ -26,11 +29,9 @@ class Config extends AbstractSingleton
         return self::$instance;
     }
 
-    public static function set($config)
+    public static function set(string $key, $config)
     {
-        foreach ($config as $key => $value) {
-            self::getInstance()->set($key, $value);
-        }
+        self::getInstance()->set($key, $config);
     }
 
     public static function get(string $key, $default = null)

@@ -2,15 +2,8 @@
 
 namespace Amber\Config;
 
-use Amber\Collection\Collection;
-
 trait ConfigAwareTrait
 {
-    /**
-     * @var Amber\Collection\Collection.
-     */
-    protected $config;
-
     /**
      * Sets the config enviroment variables.
      *
@@ -22,7 +15,13 @@ trait ConfigAwareTrait
      */
     public function setConfig(array $config)
     {
-        Config::set($config);
+        if (defined('static::PACKAGE_NAME')) {
+            Config::set(static::PACKAGE_NAME, $config);
+        } else {
+            foreach ($config as $key => $value) {
+                Config::set($key, $value);
+            }
+        }
 
         return true;
     }
@@ -37,6 +36,8 @@ trait ConfigAwareTrait
      */
     public function getConfig(string $key, $default = null)
     {
+        $key = $this->getConfigRealKey($key);
+
         if (Config::has($key)) {
             return Config::get($key);
         }
@@ -65,6 +66,8 @@ trait ConfigAwareTrait
      */
     public function hasConfig($key)
     {
+        $key = $this->getConfigRealKey($key);
+
         return Config::has($key);
     }
 
@@ -76,6 +79,15 @@ trait ConfigAwareTrait
     public function clearConfig()
     {
         Config::clear();
+    }
+
+    private function getConfigRealKey(string $key)
+    {
+        if (defined('static::PACKAGE_NAME')) {
+            return static::PACKAGE_NAME . '.' . $key;
+        }
+
+        return $key;
     }
 
     /**

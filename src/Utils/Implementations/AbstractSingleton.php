@@ -5,7 +5,7 @@ namespace Amber\Utils\Implementations;
 /**
  * Implementation of a singleton class.
  */
-abstract class AbstractSingleton 
+abstract class AbstractSingleton
 {
     /**
      * Prevents instantiation.

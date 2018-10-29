@@ -34,6 +34,11 @@ class Config extends AbstractSingleton
         self::getInstance()->set($key, $config);
     }
 
+    public static function unset(string $key)
+    {
+        self::getInstance()->delete($key);
+    }
+
     public static function get(string $key, $default = null)
     {
         $config = self::getInstance()->all();

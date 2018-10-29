@@ -36,10 +36,10 @@ trait ConfigAwareTrait
      */
     public function getConfig(string $key, $default = null)
     {
-        $key = $this->getConfigRealKey($key);
+        $global_key = $this->getConfigRealKey($key);
 
-        if (Config::has($key)) {
-            return Config::get($key);
+        if (Config::has($global_key)) {
+            return Config::get($global_key);
         }
 
         if (defined('static::' . strtoupper($key))) {

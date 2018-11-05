@@ -5,22 +5,20 @@ namespace Amber\Utils\Implementations;
 /**
  * Implementation of a singleton class.
  */
-abstract class AbstractSingleton
+abstract class AbstractSingleton 
 {
     /**
      * Prevents instantiation.
      */
-    final public function __construct()
+    final private function __construct()
     {
-        throw new \Exception('Cannot instantiate "' . get_called_class() . '"');
     }
 
     /**
      * Prevents clonation.
      */
-    final public function __clone()
+    final private function __clone()
     {
-        throw new \Exception('Cannot clon an instance of "' . get_called_class() . '"');
     }
 
     /**

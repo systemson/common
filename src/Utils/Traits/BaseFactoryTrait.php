@@ -2,6 +2,8 @@
 
 namespace Amber\Utils\Traits;
 
+use ReflectionClass;
+
 trait BaseFactoryTrait
 {
     /**
@@ -14,6 +16,6 @@ trait BaseFactoryTrait
      */
     final protected static function make(string $class, iterable $args = [])
     {
-        $instance = (new ReflectionClass($class))->newInstanceArgs($args);
+        return (new ReflectionClass($class))->newInstanceArgs($args);
     }
 }

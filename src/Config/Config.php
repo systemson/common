@@ -3,6 +3,7 @@
 namespace Amber\Config;
 
 use Amber\Collection\Collection;
+use Amber\Filesystem\Filesystem;
 use Amber\Utils\Implementations\AbstractSingleton;
 
 /**
@@ -67,5 +68,10 @@ class Config extends AbstractSingleton
     public static function clear()
     {
         self::getInstance()->clear();
+    }
+
+    public static function loadFromFile()
+    {
+        //
     }
 }

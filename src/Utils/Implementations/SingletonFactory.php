@@ -11,5 +11,5 @@ use Amber\Utils\Traits\SingletonTrait;
  */
 abstract class SingletonFactory extends AbstractSingleton
 {
-    use BaseFactoryTrait, SingletonTrait;
+    use BaseFactoryTrait;
 }

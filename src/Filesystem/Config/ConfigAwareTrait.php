@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Cache\Config;
+namespace Amber\Filesystem\Config;
 
 use Amber\Config\ConfigAwareTrait as BaseConfig;
 

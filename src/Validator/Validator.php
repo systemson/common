@@ -2,6 +2,13 @@
 
 namespace Amber\Validator;
 
+/**
+ * @todo SHOULD validate for the content of an array or array accesible object.
+ *       Example: isStrArray(), isIntArray(), isBoolArray()...
+ *
+ * @deprecated This class MUST be renamed to ValidatorTrait, and a Validator class should be created.
+ *             The Validator class MUST handle statically all the validations.
+ */
 trait Validator
 {
     /**

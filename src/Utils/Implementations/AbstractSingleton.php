@@ -2,11 +2,15 @@
 
 namespace Amber\Utils\Implementations;
 
+use Amber\Utils\Traits\SingletonTrait;
+
 /**
  * Implementation of a singleton class.
  */
-abstract class AbstractSingleton 
+abstract class AbstractSingleton
 {
+    use SingletonTrait;
+
     /**
      * Prevents instantiation.
      */
@@ -17,8 +21,9 @@ abstract class AbstractSingleton
     /**
      * Prevents clonation.
      */
-    final private function __clone()
+    final public function __clone()
     {
+        throw new \Exception('Cannot clone "[' . get_called_class() . ']"');
     }
 
     /**
@@ -26,7 +31,7 @@ abstract class AbstractSingleton
      */
     final public function __wakeup()
     {
-        throw new \Exception('Cannot unserialize "' . get_called_class() . '"');
+        throw new \Exception('Cannot unserialize ["' . get_called_class() . '"]');
     }
 
     /**

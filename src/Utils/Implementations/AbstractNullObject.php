@@ -26,14 +26,19 @@ abstract class AbstractNullObject implements ArrayAccess
         return null;
     }
 
-    public function isNull()
+    public function isNull(): bool
     {
         return true;
     }
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return true;
+    }
+
+    public function toArray(): array
+    {
+        return [];
     }
 
     public function __toString()
@@ -41,7 +46,7 @@ abstract class AbstractNullObject implements ArrayAccess
         return '';
     }
 
-    public function offsetExists($offset): boolean
+    public function offsetExists($offset)
     {
         return false;
     }

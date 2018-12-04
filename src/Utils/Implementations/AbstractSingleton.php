@@ -2,8 +2,6 @@
 
 namespace Amber\Utils\Implementations;
 
-use Amber\Utils\Traits\SingletonTrait;
-
 /**
  * Implementation of a singleton class.
  */
@@ -12,10 +10,10 @@ abstract class AbstractSingleton
     /**
      * @var self The instance of the class.
      */
-    private static $instance;
+    protected static $instance;
 
     /**
-     * To expose publicy a method it should be declared protected.
+     * To expose publicy a method, the method should be declared protected.
      *
      * @var array The method(s) that should be publicly exposed.
      */
@@ -24,7 +22,7 @@ abstract class AbstractSingleton
     /**
      * Prevents instantiation.
      */
-    final protected function __construct()
+    final private function __construct()
     {
     }
 
@@ -58,15 +56,16 @@ abstract class AbstractSingleton
 
     public static function __callStatic($method, $args = [])
     {
-        if (array_search($method, static::$passthru) !== false) {
-            return call_user_func_array([self::getInstance(), $method], $args);
+        if (empty(static::$passthru) || array_search($method, static::$passthru) !== false) {
+            return call_user_func_array([static::getInstance(), $method], $args);
         }
+
+        $class = get_called_class();
 
         if (method_exists(static::class, $method)) {
-            throw new \Exception("Non-static method " . get_called_class() . "::{$method}() should not be called statically");
+            throw new \Exception("Non-static method {$class}::{$method}() should not be called statically");
         }
 
-        throw new \Error("Call to undefined method get_called_class()" . "::{$method}()");
-        
+        throw new \Error("Call to undefined {$class}::{$method}()");
     }
 }

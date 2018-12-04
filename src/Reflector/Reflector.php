@@ -134,4 +134,14 @@ class Reflector
 
         return $this->injectables ?? [];
     }
+
+    public static function getReflection(string $class)
+    {
+        return new self($class);
+    }
+
+    public static function instantiate(string $class, $args = [])
+    {
+        return self::getReflection($class)->newInstance($args);
+    }
 }

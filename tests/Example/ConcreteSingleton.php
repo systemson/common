@@ -12,16 +12,16 @@ class ConcreteSingleton extends AbstractSingleton
      * @var array The method(s) that should be publicly exposed.
      */
     protected static $passthru = [
-    	'testMethod',
+        'testMethod',
     ];
 
-	protected function testMethod()
-	{
-		return null;
-	}
+    protected function testMethod()
+    {
+        return null;
+    }
 
-	private function privateMethod()
-	{
-		//
-	}
+    private function privateMethod()
+    {
+        //
+    }
 }

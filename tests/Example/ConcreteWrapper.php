@@ -12,16 +12,16 @@ class ConcreteWrapper extends AbstractWrapper
      * @var array The method(s) that should be publicly exposed.
      */
     protected static $passthru = [
-    	'getId',
+        'getId',
     ];
 
     protected static function setArguments(...$args): void
     {
-    	//
+        //
     }
 
     protected static function getArguments(): array
     {
-    	return [];
+        return [];
     }
 }

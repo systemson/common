@@ -13,7 +13,6 @@ use Amber\Utils\Implementations\AbstractWrapper;
  */
 class Config extends AbstractWrapper
 {
-
     protected static $accessor = Collection::class;
 
     public static function loadFromFile()

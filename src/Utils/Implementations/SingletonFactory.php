@@ -2,7 +2,6 @@
 
 namespace Amber\Utils\Implementations;
 
-
 use Amber\Utils\Traits\BaseFactoryTrait;
 use Amber\Utils\Traits\SingletonTrait;
 

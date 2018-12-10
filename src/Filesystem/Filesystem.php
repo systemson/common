@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem as Flysystem;
 use Amber\Utils\Implementations\AbstractWrapper;
+use Amber\Utils\Contracts\ArgumentAwareInterface;
+use Amber\Utils\Traits\ArgumentAwareTrait;
+
 
 /**
  * A static singleton like implementation of the League/Flysystem class.
@@ -13,8 +16,10 @@ use Amber\Utils\Implementations\AbstractWrapper;
  * @todo Must implement Amber\Config\ConfigAwareInterface
  * @todo Must extend    Amber\Utils\Abstracts\AbstractSingleton
  */
-class Filesystem extends AbstractWrapper
+class Filesystem extends AbstractWrapper implements ArgumentAwareInterface
 {
+    use ArgumentAwareTrait;
+
     /**
      * @var The class accessor.
      */
@@ -28,7 +33,6 @@ class Filesystem extends AbstractWrapper
     public static function beforeConstruct(): void
     {
         $local = new Local(getcwd());
-
         static::setArguments($local);
     }
 

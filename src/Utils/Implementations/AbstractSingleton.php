@@ -13,7 +13,7 @@ abstract class AbstractSingleton
     protected static $instance;
 
     /**
-     * To expose publicy a method, the method should be declared protected.
+     * To expose publicy a method it should be declared protected.
      *
      * @var array The method(s) that should be publicly exposed.
      */
@@ -54,10 +54,34 @@ abstract class AbstractSingleton
         return self::$instance;
     }
 
+    /**
+     * Runs before every action call
+     *
+     * @return void
+     */
+    public static function beforeCall(): void
+    {
+        //
+    }
+
+    /**
+     * Runs after every action call
+     *
+     * @return void
+     */
+    public static function afterCall(): void
+    {
+        //
+    }
+
     public static function __callStatic($method, $args = [])
     {
         if (empty(static::$passthru) || array_search($method, static::$passthru) !== false) {
-            return call_user_func_array([static::getInstance(), $method], $args);
+            static::beforeCall();
+            $return = call_user_func_array([static::getInstance(), $method], $args);
+            static::afterCall();
+
+            return $return;
         }
 
         $class = get_called_class();

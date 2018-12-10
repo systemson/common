@@ -11,21 +11,18 @@ class FilesystemTest extends TestCase
     {
         $filesystem = Filesystem::getInstance(getcwd());
 
-        $folder = 'tmp/filesystem/';
-        $name = 'test.txt/';
-        $fullname = $folder . $name;
-        $content = 'This is a test content';
+        $folder = Filesystem::fixPath('tmp/filesystem/');
+        $name = 'test.txt';
+        $fullname = Filesystem::fixPath($folder . $name);
+        $content = 'This is a test content.';
 
         $this->assertTrue(Filesystem::createDir($folder));
 
-        $this->assertFalse(Filesystem::has($fullname));
-
         $this->assertTrue(Filesystem::put($fullname, $content));
-
-        $this->assertTrue(Filesystem::has($fullname));
 
         $this->assertEquals($content, Filesystem::read($fullname));
 
+        $this->assertTrue(Filesystem::push($fullname, $content));
         $this->assertTrue(Filesystem::push($fullname, $content));
 
         $this->assertTrue(Filesystem::delete($fullname));

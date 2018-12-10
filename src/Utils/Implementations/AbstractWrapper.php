@@ -17,6 +17,11 @@ abstract class AbstractWrapper extends AbstractSingleton
     protected static $accessor;
 
     /**
+     * @var array The constructor arguments.
+     */
+    protected static $arguments = [];
+
+    /**
      * Sets the class accesor.
      *
      * @var string $class The class accesor.
@@ -39,16 +44,58 @@ abstract class AbstractWrapper extends AbstractSingleton
     }
 
     /**
+     * Sets the class constructor arguments.
+     *
+     * @var mixed $args The arguments for the class constructor.
+     *
+     * @return void
+     */
+    public static function setArguments(...$args): void
+    {
+        static::$arguments = $args;
+    }
+
+    /**
+     * Gets the class constructor arguments.
+     *
+     * @return array The arguments for the class constructor.
+     */
+    public static function getArguments(): array
+    {
+        return static::$arguments;
+    }
+
+    /**
+     * Runs before the class constructor.
+     *
+     * @return void
+     */
+    public static function beforeConstruct(): void
+    {
+        //
+    }
+
+    /**
+     * Runs after the class constructor.
+     *
+     * @return void
+     */
+    public static function afterConstruct(): void
+    {
+        //
+    }
+
+    /**
      * Returns the instance of the class.
      */
     public static function getInstance()
     {
         $accesor = static::getAccessor();
 
-        $args = (static::class instanceof ArgumentAwareInterface) ? static::getArguments() : [];
-
         if (!static::$instance instanceof $accesor) {
-            static::$instance = Reflector::instantiate($accesor, $args);
+            static::beforeConstruct();
+            static::$instance = Reflector::instantiate($accesor, static::getArguments());
+            static::afterConstruct();
         }
 
         return static::$instance;

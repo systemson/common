@@ -25,11 +25,11 @@
         "php": "^7.1.0",
         "nesbot/carbon": "^1.22",
         "league/flysystem": "^1.0",
-        "amber/collection": "^0.2.0@beta",
+        "amber/collection": "^0.2.5@beta",
         "amber/phraser": "dev-master"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "^2.0",
+        "phpdocumentor/phpdocumentor": "dev-master",
         "phpunit/phpunit": "^6.5|^7.0",
         "squizlabs/php_codesniffer": "^3.3"
     },
@@ -38,5 +38,10 @@
         "docs": "phpdoc -d ./src -i Tests/ -t ./tmp/docs/api",
         "sniff": "phpcs --standard=PSR12 ./src",
         "fix-cs": "phpcbf --standard=PSR12 ./src"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }

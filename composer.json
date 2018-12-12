@@ -34,8 +34,8 @@
         "squizlabs/php_codesniffer": "^3.3"
     },
     "scripts": {
-        "test": "phpunit --verbose --coverage-html ./tmp/coverage/",
-        "docs": "phpdoc -d ./src -i Tests/ -t ./tmp/docs/api",
+        "test": "phpunit",
+        "docs": "phpdoc",
         "sniff": "phpcs --standard=PSR12 ./src",
         "fix-cs": "phpcbf --standard=PSR12 ./src",
         "pull": [

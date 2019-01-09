@@ -74,6 +74,14 @@ abstract class AbstractSingleton
         //
     }
 
+    /**
+     * Handle dynamic, static calls to the object.
+     *
+     * @param  string  $method
+     * @param  array   $args
+     *
+     * @return mixed
+     */
     public static function __callStatic($method, $args = [])
     {
         if (empty(static::$passthru) || array_search($method, static::$passthru) !== false) {

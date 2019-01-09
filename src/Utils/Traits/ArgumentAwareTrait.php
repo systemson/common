@@ -7,7 +7,7 @@ trait ArgumentAwareTrait
     /**
      * @var array The constructor arguments.
      */
-    protected static $arguments = [];
+    private static $arguments = [];
 
     /**
      * Sets the class constructor arguments.

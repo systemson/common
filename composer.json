@@ -25,7 +25,7 @@
         "php": "^7.1.0",
         "nesbot/carbon": "^1.22",
         "league/flysystem": "^1.0",
-        "amber/collection": "^0.2.5@beta",
+        "amber/collection": "^0.3@beta",
         "amber/phraser": "dev-master"
     },
     "require-dev": {

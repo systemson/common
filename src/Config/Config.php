@@ -17,8 +17,14 @@ class Config extends AbstractWrapper implements ArgumentAwareInterface
 {
     use ArgumentAwareTrait;
 
+    /**
+     * @var The class accessor.
+     */
     protected static $accessor = Collection::class;
 
+    /**
+     * @var self The instance of the class.
+     */
     protected static $instance;
 
     /**

@@ -12,11 +12,6 @@ use Amber\Utils\Contracts\ArgumentAwareInterface;
 abstract class AbstractWrapper extends AbstractSingleton
 {
     /**
-     * @var The class accessor.
-     */
-    protected static $accessor;
-
-    /**
      * Sets the class accesor.
      *
      * @var string $class The class accesor.

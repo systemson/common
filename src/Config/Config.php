@@ -19,6 +19,8 @@ class Config extends AbstractWrapper implements ArgumentAwareInterface
 
     protected static $accessor = Collection::class;
 
+    protected static $instance;
+
     /**
      * Runs before the class constructor.
      *

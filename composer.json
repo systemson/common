@@ -22,7 +22,7 @@
         }
     },
     "require": {
-        "php": "^7.1.0",
+        "php": "^7.2.0",
         "nesbot/carbon": "^1.22",
         "league/flysystem": "^1.0",
         "amber/collection": "^0.3@beta",

@@ -26,6 +26,11 @@ class Filesystem extends AbstractWrapper implements ArgumentAwareInterface
     protected static $accessor = Flysystem::class;
 
     /**
+     * @var self The instance of the class.
+     */
+    protected static $instance;
+
+    /**
      * Runs before the class constructor.
      *
      * @return void

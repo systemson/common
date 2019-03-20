@@ -8,18 +8,6 @@ namespace Amber\Utils\Implementations;
 abstract class AbstractSingleton
 {
     /**
-     * @var self The instance of the class.
-     */
-    protected static $instance;
-
-    /**
-     * To expose publicy a method it should be declared protected.
-     *
-     * @var array The method(s) that should be publicly exposed.
-     */
-    protected static $passthru = [];
-
-    /**
      * Prevents instantiation.
      */
     final private function __construct()
@@ -47,11 +35,11 @@ abstract class AbstractSingleton
      */
     public static function getInstance()
     {
-        if (!self::$instance instanceof static) {
-            self::$instance = new static();
+        if (!static::$instance instanceof static) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**

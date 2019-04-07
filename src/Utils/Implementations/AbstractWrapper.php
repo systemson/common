@@ -75,7 +75,7 @@ abstract class AbstractWrapper extends AbstractSingleton
      */
     public static function getArguments(): ?array
     {
-        return static::$arguments;
+        return static::$arguments ?? null;
     }
 
     /**

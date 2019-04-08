@@ -35,12 +35,20 @@
     },
     "scripts": {
         "test": "phpunit",
-        "docs": "phpdoc",
+        "docs": "php sami.phar update samiConfig.php -v",
         "sniff": "phpcs --standard=PSR12 ./src",
         "fix-cs": "phpcbf --standard=PSR12 ./src",
         "pull": [
             "git pull",
             "composer update"
+        ],
+        "full-check": [
+            "@test",
+            "@docs",
+            "@sniff"
+        ],
+        "post-update-cmd": [
+            "@test"
         ]
     },
     "config": {

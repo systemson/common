@@ -18,13 +18,15 @@ trait Validator
      *
      * @return bool True if the specified argument is valid. False if it does not.
      */
-    protected function isString($arg)
+    protected function isString(...$args)
     {
-        if (is_string($arg) && $arg !== '') {
-            return true;
+        foreach ($args as $arg) {
+            if (!is_string($arg) || $arg === '') {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -34,13 +36,15 @@ trait Validator
      *
      * @return bool True if the specified argument is valid. False if it does not.
      */
-    protected function isNumeric($arg)
+    protected function isNumeric(...$args)
     {
-        if (is_numeric($arg)) {
-            return true;
+        foreach ($args as $arg) {
+            if (!is_numeric($arg)) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -52,13 +56,15 @@ trait Validator
      *
      * @return bool True if the specified argument is valid. False if it does not.
      */
-    protected function isIterable($arg)
+    protected function isIterable(...$args)
     {
-        if (is_array($arg) || $arg instanceof \IteratorAggregate) {
-            return true;
+        foreach ($args as $arg) {
+            if (!is_array($arg) && !$arg instanceof \IteratorAggregate) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -84,13 +90,15 @@ trait Validator
      *
      * @return bool True if the specified argument is valid. False if it does not.
      */
-    protected function isClass($arg)
+    protected function isClass(...$args)
     {
-        if ($this->isString($arg) && class_exists($arg)) {
-            return true;
+        foreach ($args as $arg) {
+            if (!$this->isString($arg) || !class_exists($arg)) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

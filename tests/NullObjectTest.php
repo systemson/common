@@ -19,8 +19,10 @@ class NullObjectTest extends TestCase
         $this->assertEquals([], $null->toArray());
         $this->assertEquals('', (string) $null);
         $this->assertFalse(isset($null['key']));
+        $this->assertFalse(isset($null->key));
         $null['key'] = 'value';
         $this->assertNull($null['key']);
         unset($null['key']);
+        unset($null->key);
     }
 }

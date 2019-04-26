@@ -73,9 +73,9 @@ abstract class AbstractWrapper extends AbstractSingleton
      *
      * @return array The arguments for the class constructor.
      */
-    public static function getArguments(): ?array
+    public static function getArguments(): array
     {
-        return static::$arguments ?? null;
+        return static::$arguments ?? [];
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class AbstractWrapper extends AbstractSingleton
         if (!static::$instance instanceof $accesor) {
             static::beforeConstruct();
 
-            $args = static::getArguments() ?? [];
+            $args = static::getArguments();
 
             static::$instance = static::make($accesor, $args);
 

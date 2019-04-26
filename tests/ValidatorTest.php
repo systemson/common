@@ -19,31 +19,27 @@ class ValidatorTest extends TestCase
         $validator = $this->getMockForTrait(Validator::class);
 
         /* Test strings */
-        $this->assertTrue($this->isString($string));
-        $this->assertTrue($this->isString($class));
-        $this->assertTrue($this->isString('2'));
+        $this->assertTrue($this->isString($string, $class, '2'));
 
+        $this->assertFalse($this->isString($string, $class, '2', 1));
         $this->assertFalse($this->isString(1));
         $this->assertFalse($this->isString($array));
         $this->assertFalse($this->isString($function));
         $this->assertFalse($this->isString($validator));
 
         /* Test number */
-        $this->assertTrue($this->isNumeric(1));
-        $this->assertTrue($this->isNumeric(1.1));
-        $this->assertTrue($this->isNumeric('2.5'));
-        $this->assertFalse($this->isString(1));
+        $this->assertTrue($this->isNumeric(1, 1.1, '2.5'));
 
+        $this->assertFalse($this->isNumeric(1, 1.1, '2.5', $string));
         $this->assertFalse($this->isNumeric($string));
         $this->assertFalse($this->isNumeric($array));
         $this->assertFalse($this->isNumeric($function));
         $this->assertFalse($this->isNumeric($validator));
 
         /* Test iterable */
-        $this->assertTrue($this->isIterable([]));
-        $this->assertTrue($this->isIterable([1, 2]));
-        $this->assertTrue($this->isIterable($this->createMock(\IteratorAggregate::class)));
+        $this->assertTrue($this->isIterable([], [1, 2], $this->createMock(\IteratorAggregate::class)));
 
+        $this->assertFalse($this->isIterable([], [1, 2], $this->createMock(\IteratorAggregate::class), 1));
         $this->assertFalse($this->isIterable(1));
         $this->assertFalse($this->isIterable($string));
         $this->assertFalse($this->isIterable($function));
@@ -67,7 +63,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($this->isCallable($validator));
 
         /* Test Class */
-        $this->assertTrue($this->isClass($class));
+        $this->assertTrue($this->isClass($class, TestCase::class));
 
         $this->assertFalse($this->isClass(UnkownClass::class));
         $this->assertFalse($this->isClass('UnkownClass'));
@@ -75,6 +71,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($this->isClass($string));
         $this->assertFalse($this->isClass($array));
         $this->assertFalse($this->isClass($validator));
+        $this->assertFalse($this->isClass(''));
 
         /* Test types */
         $this->assertSame('string', $this->getType('string'));

@@ -11,12 +11,22 @@ use ArrayAccess;
  */
 abstract class AbstractNullObject implements ArrayAccess
 {
-    public function __set($key, $value)
+    public function __set($name, $value)
     {
         //
     }
 
-    public function __get($value)
+    public function __isset($name)
+    {
+        return false;
+    }
+
+    public function __unset($name)
+    {
+        //;
+    }
+
+    public function __get($name)
     {
         return null;
     }

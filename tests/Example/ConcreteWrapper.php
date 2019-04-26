@@ -9,7 +9,7 @@ class ConcreteWrapper extends AbstractWrapper
     /**
      * @var The class accessor.
      */
-    protected static $accessor = SymfonyResponse::class;
+    protected static $accessor;
 
     /**
      * @var self The instance of the class.
@@ -24,14 +24,4 @@ class ConcreteWrapper extends AbstractWrapper
     protected static $passthru = [
         'getId',
     ];
-
-    public static function setArguments(...$args): void
-    {
-        //
-    }
-
-    public static function getArguments(): array
-    {
-        return [];
-    }
 }

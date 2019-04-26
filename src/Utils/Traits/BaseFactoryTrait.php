@@ -14,7 +14,7 @@ trait BaseFactoryTrait
      *
      * @return mixed The class instance.
      */
-    final protected static function make(string $class, iterable $args = [])
+    final protected static function make(string $class, array $args = [])
     {
         return (new ReflectionClass($class))->newInstanceArgs($args);
     }

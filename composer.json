@@ -26,7 +26,7 @@
         "amber/collection": "^0.5.1",
         "amber/phraser": "^0.0.2@beta",
         "league/flysystem": "^1.0",
-        "nesbot/carbon": "^1.22"
+        "nesbot/carbon": "^2.17"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.1",

@@ -23,8 +23,8 @@
     },
     "require": {
         "php": "^7.2.0",
-        "amber/collection": "^0.5.1",
-        "amber/phraser": "^0.0.2@beta",
+        "amber/collection": "0.6.*",
+        "amber/phraser": "^0.0.3",
         "league/flysystem": "^1.0",
         "nesbot/carbon": "^2.17"
     },
@@ -46,6 +46,9 @@
             "@test",
             "@docs",
             "@sniff"
+        ],
+        "post-install-cmd": [
+            "@test"
         ],
         "post-update-cmd": [
             "@test"

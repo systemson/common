@@ -93,7 +93,7 @@ trait Validator
     protected function isClass(...$args)
     {
         foreach ($args as $arg) {
-            if (!$this->isString($arg) || !class_exists($arg)) {
+            if (!$this->isString($arg) || (!class_exists($arg) && !interface_exists($arg))) {
                 return false;
             }
         }

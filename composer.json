@@ -24,7 +24,7 @@
     "require": {
         "php": "^7.2.0",
         "amber/collection": "0.6.*",
-        "amber/phraser": "^0.0.3",
+        "amber/phraser": "0.1.*",
         "league/flysystem": "^1.0",
         "nesbot/carbon": "^2.17"
     },

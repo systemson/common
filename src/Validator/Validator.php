@@ -10,7 +10,7 @@ use Amber\Phraser\Phraser;
  */
 class Validator
 {
-    public static function validate($argument, $validations)
+    public static function validate($subject, $validations)
     {
         if (is_string($validations)) {
             $validations = explode('|', $validations);
@@ -23,23 +23,23 @@ class Validator
 
             $callback = call_user_func_array([new v(), $name], $args);
 
-            if (!$callback->validate($argument)) {
-                return self::doFalse();
+            if (!$callback->validate($subject)) {
+                return self::doFalse($subject, $validation);
             }
         }
 
-        return self::doTrue();
+        return self::doTrue($subject, $validation);
     }
 
     public static function validateAll(array $pairs)
     {
-        foreach ($pairs as $arg => $rule) {
-            if (!self::validate($arg, $rule)) {
-                return self::doFalse();
+        foreach ($pairs as $subject => $validation) {
+            if (!self::validate($subject, $validation)) {
+                return self::doFalse($subject, $validation);
             }
         }
 
-        return self::doTrue();
+        return self::doTrue($subject, $validation);
     }
 
     protected static function getRuleName($validation)
@@ -56,11 +56,27 @@ class Validator
          $exploded = self::explodeNameArgs($validation);
 
         if ($exploded->count() > 1) {
-            return $exploded
+            $args = $exploded
                 ->last()
                 ->explode(',')
                 ->toArray();
             ;
+
+            return array_map(function ($value) {
+                if ($value == 'null') {
+                    return null;
+                }
+
+                /*if ($value == 'true') {
+                    return true;
+                }
+
+                if ($value == 'false') {
+                    return false;
+                }*/
+
+                return $value;
+            }, $args);
         }
 
         return [];
@@ -71,12 +87,12 @@ class Validator
         return Phraser::explode($validation, ':');
     }
 
-    protected static function doFalse()
+    protected static function doFalse($subject, string $validation)
     {
         return false;
     }
 
-    protected static function doTrue()
+    protected static function doTrue($subject, string $validation)
     {
         return true;
     }

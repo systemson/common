@@ -35,7 +35,7 @@ class ValidatorTest extends TestCase
     public function testMultipleValidations()
     {
         $array = [
-            'admin@admin.com' => 'email|not-optional|length:5,50',
+            'admin@admin.com' => 'email|not-optional|length:null,50',
             'secret' => 'equals:secret',
         ];
 

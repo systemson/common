@@ -2,133 +2,82 @@
 
 namespace Amber\Validator;
 
+use Respect\Validation\Validator as v;
+use Amber\Phraser\Phraser;
+
 /**
- * @todo SHOULD validate for the content of an array or array accesible object.
- *       Example: isStrArray(), isIntArray(), isBoolArray()...
  *
- * @deprecated This class MUST be renamed to ValidatorTrait, and a Validator class should be created.
- *             The Validator class MUST handle statically all the validations.
  */
-trait Validator
+class Validator
 {
-    /**
-     * Checks if the specified argument is a valid string.
-     *
-     * @param string $arg The argument to validate.
-     *
-     * @return bool True if the specified argument is valid. False if it does not.
-     */
-    protected function isString(...$args)
+    public static function validate($argument, $validations)
     {
-        foreach ($args as $arg) {
-            if (!is_string($arg) || $arg === '') {
-                return false;
+        if (is_string($validations)) {
+            $validations = explode('|', $validations);
+        }
+
+        foreach ($validations as $validation) {
+            $name = self::getRuleName($validation);
+
+            $args = self::getRuleArgs($validation);
+
+            $callback = call_user_func_array([new v(), $name], $args);
+
+            if (!$callback->validate($argument)) {
+                return self::doFalse();
             }
         }
 
-        return true;
+        return self::doTrue();
     }
 
-    /**
-     * Checks if the specified argument is a valid number.
-     *
-     * @param string $arg The argument to validate.
-     *
-     * @return bool True if the specified argument is valid. False if it does not.
-     */
-    protected function isNumeric(...$args)
+    public static function validateAll(array $pairs)
     {
-        foreach ($args as $arg) {
-            if (!is_numeric($arg)) {
-                return false;
+        foreach ($pairs as $arg => $rule) {
+            if (!self::validate($arg, $rule)) {
+                return self::doFalse();
             }
         }
 
-        return true;
+        return self::doTrue();
     }
 
-    /**
-     * Checks if the specified argument is a valid iterable.
-     *
-     * @todo After updating to 7.1 validate with is_iterable().
-     *
-     * @param array|object $arg The argument to validate.
-     *
-     * @return bool True if the specified argument is valid. False if it does not.
-     */
-    protected function isIterable(...$args)
+    protected static function getRuleName($validation)
     {
-        foreach ($args as $arg) {
-            if (!is_array($arg) && !$arg instanceof \IteratorAggregate) {
-                return false;
-            }
-        }
-
-        return true;
+        return (string) self::explodeNameArgs($validation)
+            ->first()
+            ->fromKebabCase()
+            ->toCamelCase(true)
+        ;
     }
 
-    /**
-     * Checks if the specified argument is a valid callable.
-     *
-     * @param mixed $arg The argument to validate.
-     *
-     * @return bool True if the specified argument is valid. False if it does not.
-     */
-    protected function isCallable($arg, $method = null)
+    protected static function getRuleArgs($validation)
     {
-        if (is_callable($arg) || is_callable([$arg, $method]) || $this->isClass($arg)) {
-            return true;
+         $exploded = self::explodeNameArgs($validation);
+
+        if ($exploded->count() > 1) {
+            return $exploded
+                ->last()
+                ->explode(',')
+                ->toArray();
+            ;
         }
 
+        return [];
+    }
+
+    protected static function explodeNameArgs($validation)
+    {
+        return Phraser::explode($validation, ':');
+    }
+
+    protected static function doFalse()
+    {
         return false;
     }
 
-    /**
-     * Checks if the specified argument is a valid class.
-     *
-     * @param mixed $arg The argument to validate.
-     *
-     * @return bool True if the specified argument is valid. False if it does not.
-     */
-    protected function isClass(...$args)
+    protected static function doTrue()
     {
-        foreach ($args as $arg) {
-            if (!$this->isString($arg) || (!class_exists($arg) && !interface_exists($arg))) {
-                return false;
-            }
-        }
-
         return true;
-    }
-
-    /**
-     * Returns the type of the provided argument.
-     *
-     * @param mixed $arg The argument to validate.
-     *
-     * @return bool True if the specified argument is valid. False if it does not.
-     */
-    protected function getType($arg)
-    {
-        $type = gettype($arg);
-
-        if ($this->isClass($arg)) {
-            return 'class';
-        }
-
-        return $type;
-    }
-
-    /**
-     * Checks if two provided arguments are of the same type.
-     *
-     * @param mixed $arg1 The first argument to validate.
-     * @param mixed $arg2 The second argument to validate.
-     *
-     * @return bool True if the specified arguments are of the same type. False if they do not.
-     */
-    protected function sameType($arg1, $arg2)
-    {
-        return $this->getType($arg1) === $this->getType($arg2);
     }
 }

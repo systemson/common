@@ -2,21 +2,61 @@
 
 namespace Tests;
 
+use Amber\Validator\ValidatorTrait;
 use Amber\Validator\Validator;
 use PHPUnit\Framework\TestCase;
+use Respect\Validation\Validator as v;
 
 class ValidatorTest extends TestCase
 {
-    use Validator;
+    use ValidatorTrait;
 
-    public function testValidations()
+    public function testValidator()
+    {
+        $this->assertTrue(Validator::validate('string', [
+            'alnum',
+            'no-whitespace',
+            'lowercase',
+        ]));
+
+        $this->assertTrue(Validator::validate('admin@admin.com', [
+            'email',
+        ]));
+
+        $this->assertFalse(Validator::validate('string', [
+            'numeric',
+            'no-whitespace',
+            'lowercase',
+        ]));
+
+        $this->assertFalse(Validator::validate('string', 'numeric|no-whitespace|lowercase'));
+    }
+
+    public function testMultipleValidations()
+    {
+        $array = [
+            'admin@admin.com' => 'email|not-optional|length:5,50',
+            'secret' => 'equals:secret',
+        ];
+
+        $this->assertTrue(Validator::validateAll($array));
+
+        $array = [
+            'admin@admin.com' => 'email|not-optional|length:5,50',
+            '1234' => 'equals:secret',
+        ];
+
+        $this->assertFalse(Validator::validateAll($array));
+    }
+
+    public function testValidatorTrait()
     {
         $string = 'string';
         $class = TestCase::class;
         $array = [];
         $function = function () {
         };
-        $validator = $this->getMockForTrait(Validator::class);
+        $validator = $this->getMockForTrait(ValidatorTrait::class);
 
         /* Test strings */
         $this->assertTrue($this->isString($string, $class, '2'));

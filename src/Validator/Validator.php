@@ -4,12 +4,14 @@ namespace Amber\Validator;
 
 use Respect\Validation\Validator as v;
 use Amber\Phraser\Phraser;
+use Respect\Validation\Exceptions\NestedValidationException;
 
 /**
  *
  */
 class Validator
 {
+    //public static function
     public static function validate($subject, $validations)
     {
         if (is_string($validations)) {
@@ -28,6 +30,7 @@ class Validator
             }
         }
 
+
         return self::doTrue($subject, $validation);
     }
 
@@ -40,6 +43,33 @@ class Validator
         }
 
         return self::doTrue($subject, $validation);
+    }
+
+    public static function assert(array $ruleSet, $object) 
+    {
+        $validator = new v();
+
+        foreach ($ruleSet as $attr => $validations) {
+            $rules = new v();
+
+            foreach (explode('|', $validations) as $validation) {
+                $name = self::getRuleName($validation);
+
+                $args = self::getRuleArgs($validation);
+
+                $rules = call_user_func_array([$rules, $name], $args);
+            }
+
+            $validator = call_user_func_array([$validator, 'attribute'], [$attr, $rules]);
+        }
+
+        try {
+            $validator->assert($object);
+        } catch (NestedValidationException $e) {
+            return $e->getMessages();
+        }
+
+        return true;
     }
 
     protected static function getRuleName($validation)

@@ -49,6 +49,36 @@ class ValidatorTest extends TestCase
         $this->assertFalse(Validator::validateAll($array));
     }
 
+    public function testAssertPassing()
+    {
+        $ruleSet = [
+            'email' => 'email|length:null,50',
+            'password' => 'alnum|length:5,16|equals:secret',
+        ];
+
+        $request = (object) [
+            'email' => 'admin@admin.com',
+            'password' => 'secret',
+        ];
+
+        $this->assertTrue(Validator::assert($ruleSet, $request));
+    }
+
+    public function testAssertFailing()
+    {
+        $ruleSet = [
+            'email' => 'email|length:null,50',
+            'password' => 'alnum|length:5,16|equals:1234',
+        ];
+
+        $request = (object) [
+            'email' => 'not_an_email',
+            'password' => 'secret',
+        ];
+
+        $this->assertNotEmpty(Validator::assert($ruleSet, $request));
+    }
+
     public function testValidatorTrait()
     {
         $string = 'string';

@@ -49,6 +49,20 @@ class ValidatorTest extends TestCase
         $this->assertFalse(Validator::validateAll($array));
     }
 
+    public function testValidatorSetterAndGetter()
+    {
+        $this->assertEmpty(Validator::getMessages());
+
+        $messages = [
+            'yes' => 'Si',
+            'no' => 'No',
+        ];
+
+        Validator::setMessages($messages);
+
+        $this->assertEquals($messages, Validator::getMessages());
+    }
+
     public function testAssertPassing()
     {
         $ruleSet = [

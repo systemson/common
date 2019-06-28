@@ -11,7 +11,8 @@ use Respect\Validation\Exceptions\NestedValidationException;
  */
 class Validator
 {
-    //public static function
+    protected static $messages = [];
+
     public static function validate($subject, $validations)
     {
         if (is_string($validations)) {
@@ -45,6 +46,16 @@ class Validator
         return self::doTrue($subject, $validation);
     }
 
+    public static function setMessages(array $messages = [])
+    {
+        self::$messages = $messages;
+    }
+
+    public static function getMessages()
+    {
+        return self::$messages;
+    }
+
     public static function assert(array $ruleSet, $object) 
     {
         $validator = new v();
@@ -66,6 +77,8 @@ class Validator
         try {
             $validator->assert($object);
         } catch (NestedValidationException $e) {
+            $errors = $e->findMessages(self::getMessages());
+
             return $e->getMessages();
         }
 

@@ -5,6 +5,7 @@ namespace Amber\Validator;
 use Respect\Validation\Validator as v;
 use Amber\Phraser\Phraser;
 use Respect\Validation\Exceptions\NestedValidationException;
+use Amber\Collection\Collection;
 
 /**
  *
@@ -56,7 +57,12 @@ class Validator
         return self::$messages;
     }
 
-    public static function assert(array $ruleSet, $object) 
+    public static function getMessage(string $name): string
+    {
+        return self::$messages[$name] ?? '';
+    }
+
+    public static function assert(array $ruleSet, $object)
     {
         $validator = new v();
 
@@ -77,9 +83,7 @@ class Validator
         try {
             $validator->assert($object);
         } catch (NestedValidationException $e) {
-            $errors = $e->findMessages(self::getMessages());
-
-            return $e->getMessages();
+            return self::getErrors($e);
         }
 
         return true;
@@ -123,6 +127,21 @@ class Validator
         }
 
         return [];
+    }
+
+    protected static function getErrors(NestedValidationException $e): iterable
+    {
+        $e->findMessages(self::getMessages());
+
+        $errors = new Collection();
+
+        foreach ($e as $exception) {
+            $name = $exception->getName();
+
+            $errors->set($name, $exception->getMessage());
+        }
+
+        return $errors;
     }
 
     protected static function explodeNameArgs($validation)

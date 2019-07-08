@@ -77,7 +77,7 @@ class Validator
                 $rules = call_user_func_array([$rules, $name], $args);
             }
 
-            $validator = call_user_func_array([$validator, 'attribute'], [$attr, $rules]);
+            $validator = call_user_func_array([$validator, 'key'], [$attr, $rules]);
         }
 
         try {

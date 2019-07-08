@@ -70,7 +70,7 @@ class ValidatorTest extends TestCase
             'password' => 'alnum|length:5,16|equals:secret',
         ];
 
-        $request = (object) [
+        $request = [
             'email' => 'admin@admin.com',
             'password' => 'secret',
         ];
@@ -85,7 +85,7 @@ class ValidatorTest extends TestCase
             'password' => 'alnum|length:5,16|equals:1234',
         ];
 
-        $request = (object) [
+        $request = [
             'email' => 'not_an_email',
             'password' => 'secret',
         ];

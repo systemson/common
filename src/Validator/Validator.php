@@ -14,6 +14,8 @@ class Validator
 {
     protected static $messages = [];
 
+    protected static $attributes = [];
+
     public static function validate($subject, $validations)
     {
         if (is_string($validations)) {
@@ -52,9 +54,21 @@ class Validator
         self::$messages = $messages;
     }
 
-    public static function getMessages()
+    public static function getMessages(): array
     {
         return self::$messages;
+    }
+
+    public static function setMessage(string $name, string $value): self
+    {
+        self::$messages[$name] = $value;
+
+        return $this;
+    }
+
+    public static function hasMessage(string $name): bool
+    {
+        return isset(self::$messages[$name]);
     }
 
     public static function getMessage(string $name): string
@@ -62,11 +76,43 @@ class Validator
         return self::$messages[$name] ?? '';
     }
 
-    public static function assert(array $ruleSet, $object)
+    public static function setAttributes(array $attributes = [])
+    {
+        self::$attributes = $attributes;
+    }
+
+    public static function getAttributes(): array
+    {
+        return self::$attributes;
+    }
+
+    public static function setAttribute(string $name, string $value): self
+    {
+        self::$attributes[$name] = $value;
+
+        return $this;
+    }
+
+    public static function hasAttribute(string $name): bool
+    {
+        return isset(self::$attributes[$name]);
+    }
+
+    public static function getAttribute(string $name): string
+    {
+        return self::$attributes[$name] ?? '';
+    }
+
+    public static function assert(array $ruleSet, $array)
     {
         $validator = new v();
 
         foreach ($ruleSet as $attr => $validations) {
+
+            if (!isset($array[$attr]) && static::isOptional($validations)) {
+                break;
+            }
+
             $rules = new v();
 
             foreach (explode('|', $validations) as $validation) {
@@ -81,12 +127,25 @@ class Validator
         }
 
         try {
-            $validator->assert($object);
+            $validator->assert($array);
         } catch (NestedValidationException $e) {
-            return self::getErrors($e);
+            return  self::getErrors($e);
         }
 
         return true;
+    }
+
+    protected static function isOptional(string $validations = ''): bool
+    {
+        if (strpos($validations, 'optional') !== false) {
+            return true;
+        }
+
+        if (strpos($validations, 'default') !== false) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static function getRuleName($validation)
@@ -110,19 +169,24 @@ class Validator
             ;
 
             return array_map(function ($value) {
-                if ($value == 'null') {
-                    return null;
+
+                switch ($value) {
+                    case 'null':
+                        return null;
+                        break;
+
+                    case 'true':
+                        return true;
+                        break;
+
+                    case 'false':
+                        return false;
+                        break;
+                    
+                    default:
+                        return $value;
+                        break;
                 }
-
-                /*if ($value == 'true') {
-                    return true;
-                }
-
-                if ($value == 'false') {
-                    return false;
-                }*/
-
-                return $value;
             }, $args);
         }
 
@@ -131,17 +195,40 @@ class Validator
 
     protected static function getErrors(NestedValidationException $e): iterable
     {
-        $e->findMessages(self::getMessages());
-
         $errors = new Collection();
 
         foreach ($e as $exception) {
             $name = $exception->getName();
+            $id = $exception->getId();
 
-            $errors->set($name, $exception->getMessage());
+            /*if (self::hasMessage($id)) {
+                $messages = $e->findMessages([
+                    $id => self::getMessage($id)
+                ]);*/
+            //} else {
+                $messages[$id] = $exception->getMessage();
+            //}
+
+            list($name, $messages) = self::translateAttributeName($name, $messages);
+
+            $errors->set($name, $messages);
         }
 
         return $errors;
+    }
+
+    protected static function translateAttributeName(string $name, array $messages = []): array
+    {
+        if (self::hasAttribute($name)) {
+            $locale = self::getAttribute($name);
+
+            $messages = str_replace($name, $locale, $messages);
+
+            return [$locale, $messages];
+        }
+
+        return [$name, $messages];
+
     }
 
     protected static function explodeNameArgs($validation)

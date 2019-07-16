@@ -62,6 +62,26 @@ abstract class AbstractSingleton
         //
     }
 
+    public static function setMacro(string $method, \Closure $callback): void
+    {
+        static::$macros[$method] = $callback;
+    }
+
+    public static function hasMacro(string $method): bool
+    {
+        return isset(static::$macros[$method]);
+    }
+
+    public static function getMacro(string $method): ?\Closure
+    {
+        return static::$macros[$method] ?? null;
+    }
+
+    private static function passthru(string $method): bool
+    {
+        return empty(static::$passthru) || in_array($method, static::$passthru);
+    }
+
     /**
      * Handle dynamic, static calls to the object.
      *
@@ -72,9 +92,17 @@ abstract class AbstractSingleton
      */
     public static function __callStatic($method, $args = [])
     {
-        if (empty(static::$passthru) || array_search($method, static::$passthru) !== false) {
+        if (self::passthru($method) || static::hasMacro($method)) {
             static::beforeCall();
-            $return = call_user_func_array([static::getInstance(), $method], $args);
+
+            if (static::hasMacro($method)) {
+                $callback = static::getMacro($method);
+            } else {
+                $callback = [static::getInstance(), $method];
+            }
+
+            $return = call_user_func_array($callback, $args);
+
             static::afterCall();
 
             return $return;

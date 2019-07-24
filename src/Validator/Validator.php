@@ -103,19 +103,23 @@ class Validator
         return self::$attributes[$name] ?? '';
     }
 
-    public static function assert(array $ruleSet, $array)
+    public static function assert(array $ruleSet, $values)
     {
         $validator = new v();
 
         foreach ($ruleSet as $attr => $validations) {
 
-            if (!isset($array[$attr]) && static::isOptional($validations)) {
-                break;
+            if (!isset($values[$attr]) && static::isOptional($validations)) {
+                continue;
             }
 
             $rules = new v();
 
             foreach (explode('|', $validations) as $validation) {
+                if ($validation == 'optional') {
+                    continue;
+                }
+
                 $name = self::getRuleName($validation);
 
                 $args = self::getRuleArgs($validation);
@@ -123,13 +127,14 @@ class Validator
                 $rules = call_user_func_array([$rules, $name], $args);
             }
 
+
             $validator = call_user_func_array([$validator, 'key'], [$attr, $rules]);
         }
 
         try {
-            $validator->assert($array);
+            $validator->assert($values);
         } catch (NestedValidationException $e) {
-            return  self::getErrors($e);
+            return new Collection($e->getMessages());
         }
 
         return true;
@@ -138,10 +143,6 @@ class Validator
     protected static function isOptional(string $validations = ''): bool
     {
         if (strpos($validations, 'optional') !== false) {
-            return true;
-        }
-
-        if (strpos($validations, 'default') !== false) {
             return true;
         }
 
@@ -198,7 +199,7 @@ class Validator
         $errors = new Collection();
 
         foreach ($e as $exception) {
-            $name = $exception->getName();
+            $name = $exception->getMessage();
             $id = $exception->getId();
 
             /*if (self::hasMessage($id)) {
@@ -206,10 +207,10 @@ class Validator
                     $id => self::getMessage($id)
                 ]);*/
             //} else {
-                $messages[$id] = $exception->getMessage();
+                $messages[$id] = $exception->findMessages();
             //}
 
-            list($name, $messages) = self::translateAttributeName($name, $messages);
+            //list($name, $messages) = self::translateAttributeName($name, $messages);
 
             $errors->set($name, $messages);
         }

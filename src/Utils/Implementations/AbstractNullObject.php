@@ -75,4 +75,9 @@ abstract class AbstractNullObject implements ArrayAccess
     {
         return;
     }
+
+    public function __call(string $method, $args = [])
+    {
+        return;
+    }
 }

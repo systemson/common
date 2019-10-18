@@ -10,6 +10,11 @@ trait SingletonTrait
     protected static $instance;
 
     /**
+     * @var array The Argument(s) for the class constructor.
+     */
+    protected static $arguments = [];
+
+    /**
      * To publicly expose a method it must be public or protected.
      *
      * @var array The method(s) that should be publicly exposed. An empty array means all.
